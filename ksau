@@ -449,6 +449,14 @@ select_remote_most_free_cached
 if [[ $1 == "upload" ]]; then
     readonly file="$2"
     readonly u_folder="$3"
+    if [ -z "$file" ]; then
+        echo -e "Error: 'file path' is not specified. Upload aborted.\nSpecify which file to upload"
+        exit 1
+    fi
+    if [ -z "$u_folder" ]; then
+        echo -e "Error: 'upload directory' is not specified. Upload aborted.\nSpecify a folder name (can be anything) in which files will be uploaded to help organize files better"
+        exit 1
+    fi
     if [ -n "$KSAUOPT_SPECIFIC_REMOTE" ]; then
         SELECTED_REMOTE=$KSAUOPT_SPECIFIC_REMOTE
         upline 1; clearline
