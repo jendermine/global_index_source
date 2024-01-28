@@ -9,11 +9,13 @@ readonly CACHED_FREESPACE_TIMEOUT=$((60*60)) # 60s * 60m = 1h in seconds unit
 mkdir -p "$KSAU_CACHE_DIR"
 
 readonly REMOTES=(
-    "oned"
-    "hakimionedrive"
-    "saurajcf"
+    "gdrive_jen"
+    "gdrive_non"
+    "gdrive_roh"
+    "gdrive_sun"
+    "gdrive_tech"
 )
-SELECTED_REMOTE=oned # default
+SELECTED_REMOTE=gdrive_sun # default
 
 #Define colors
 normal=$(echo -en "\e[0m")
@@ -83,7 +85,7 @@ setup() {
         echo "Please install ${orange}wget ${aqua}manually and continue...${normal}"
         exit
     fi
-    wget https://gist.githubusercontent.com/Hakimi0804/aabebeea8c1ce0c5a6968fc0d78ed5ae/raw/500a7a0098f72b2806b73a2b7f0c6d0b08d7fa2f/rclone.conf >/dev/null 2>&1
+    wget $1 -O rclone.conf >/dev/null 2>&1
     mv rclone.conf ~/.config/rclone
     if ! command -v rclone &>/dev/null; then
         echo "${aqua}Dependencies not found. Make sure to proceed with the command 'ksau dependencies'"
@@ -200,15 +202,21 @@ rclone_progress_bar() {
     touch log
     if [ -z "$new_filename" ]; then new_filename=$(basename "$file"); fi
     case $SELECTED_REMOTE in
-        hakimionedrive)
-            rclone -P --checkers=32 --onedrive-chunk-size 60M copyto "$file" "hakimionedrive:/Public/${u_folder}/$new_filename" | tee log >/dev/null || touch "$status_dir/failed" &
-            ;;
-        oned)
-            rclone -P --checkers=32 --onedrive-chunk-size 60M copyto "$file" "oned:/${u_folder}/$new_filename" | tee log >/dev/null || touch "$status_dir/failed" &
-            ;;
-        saurajcf)
-            rclone -P --checkers=32 --onedrive-chunk-size 60M copyto "$file" "saurajcf:/MY_BOMT_STUFFS/${u_folder}/$new_filename" | tee log >/dev/null || touch "$status_dir/failed" &
-            ;;
+        gdrive_jen)
+            rclone -P --checkers=32 --drive-chunk-size 128M copyto "$file" "gdrive_jen:${u_folder}/$new_filename" | tee log >/dev/null || touch "$status_dir/failed" &
+	    ;;
+	grdive_non)
+            rclone -P --checkers=32 --drive-chunk-size 128M copyto "$file" "gdrive_non:${u_folder}/$new_filename" | tee log >/dev/null || touch "$status_dir/failed" &
+	    ;;
+	gdrive_roh)
+            rclone -P --checkers=32 --drive-chunk-size 128M copyto "$file" "gdrive_roh:${u_folder}/$new_filename" | tee log >/dev/null || touch "$status_dir/failed" &
+	    ;;
+	gdrive_sun)
+            rclone -P --checkers=32 --drive-chunk-size 128M copyto "$file" "gdrive_sun:${u_folder}/$new_filename" | tee log >/dev/null || touch "$status_dir/failed" &
+	    ;;
+	gdrive_tech)
+            rclone -P --checkers=32 --drive-chunk-size 128M copyto "$file" "gdrive_tech:${u_folder}/$new_filename" | tee log >/dev/null || touch "$status_dir/failed" &
+	    ;;
     esac
     until [ -z "$(jobs -r)" ]; do
         if [ -f "$status_dir/failed" ]; then
@@ -284,31 +292,42 @@ upload() {
     echo -e "\n$(clearline)$(upline 1)$(clearline)$(upline 1)"
     echo "$(clearline) Upload Completed "
     case $SELECTED_REMOTE in
-        hakimionedrive)
-            echo "$(clearline) Download link - ${lightgreen}https://onedrive-vercel-index-kohl-eight-30.vercel.app/${url_folder}/${url_file}${normal} "
+        gdrive_jen)
+            echo "$(clearline) Download link - ${lightgreen}https://index-jen.jendermine.workers.dev/0:/${url_folder}/${url_file}${normal} "
             ;;
-        oned)
-            echo "$(clearline) Download link - ${lightgreen}https://index.sauraj.eu.org/${url_folder}/${url_file}${normal} "
+	gdrive_non)
+            echo "$(clearline) Download link - ${lightgreen}https://index-non.jendermine.workers.dev/0:/${url_folder}/${url_file}${normal} "
             ;;
-        saurajcf)
-            echo "$(clearline) Download link - ${lightgreen}https://drive.sauraj.cf/${url_folder}/${url_file}${normal} "
+	gdrive_roh)
+            echo "$(clearline) Download link - ${lightgreen}https://index-roh.jendermine.workers.dev/0:/${url_folder}/${url_file}${normal} "
+            ;;
+	gdrive_sun)
+            echo "$(clearline) Download link - ${lightgreen}https://index-sun.jendermine.workers.dev/0:/${url_folder}/${url_file}${normal} "
+            ;;
+	gdrive_tech)
+            echo "$(clearline) Download link - ${lightgreen}https://index-tech.jendermine.workers.dev/0:/${url_folder}/${url_file}${normal} "
             ;;
     esac
     echo "$(clearline)"
 
     if [[ $KSAUOPT_QUIET == true ]]; then
         case $SELECTED_REMOTE in
-            hakimionedrive)
-                builtin echo "https://onedrive-vercel-index-kohl-eight-30.vercel.app/${url_folder}/${url_file}"
+            gdrive_jen)
+                builtin echo "https://index-jen.jendermine.workers.dev/0:/${url_folder}/${url_file}"
                 ;;
-            oned)
-                builtin echo "https://index.sauraj.eu.org/${url_folder}/${url_file}"
+	    gdrive_non)
+                builtin echo "https://index-non.jendermine.workers.dev/0:/${url_folder}/${url_file}"
                 ;;
-            saurajcf)
-                builtin echo "https://drive.sauraj.cf/${url_folder}/${url_file}"
+	    gdrive_roh)
+                builtin echo "https://index-roh.jendermine.workers.dev/0:/${url_folder}/${url_file}"
+                ;;
+	    gdrive_sun)
+                builtin echo "https://index-sun.jendermine.workers.dev/0:/${url_folder}/${url_file}"
+                ;;
+	    gdrive_tech)
+                builtin echo "https://index-tech.jendermine.workers.dev/0:/${url_folder}/${url_file}"
                 ;;
         esac
-        
     fi
 }
 
@@ -370,7 +389,7 @@ update() {
     tmpfilename=ksau-$RANDOM
 
     echo "Fetching"
-    curl --progress-bar -Lo "$tmpfilename" https://raw.githubusercontent.com/ksauraj/global_index_source/master/ksau
+    curl --progress-bar -Lo "$tmpfilename" https://raw.githubusercontent.com/jendermine/global_index_source/master/ksau
 
     new_version=$(grep 'KSAU_VERSION=' "$tmpfilename" | head -n1 | cut -d= -f2)
     new_version_string=$(grep 'KSAU_VERSION_STRING=' "$tmpfilename" | head -n1 | cut -d= -f2)
