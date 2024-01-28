@@ -85,7 +85,12 @@ setup() {
         echo "Please install ${orange}wget ${aqua}manually and continue...${normal}"
         exit
     fi
-    wget $1 -O rclone.conf >/dev/null 2>&1
+    url=$1
+    if [ -z "$url" ]; then
+    echo "Usage: ksau setup <URL>"
+    exit 1
+    fi
+    wget $url -O rclone.conf >/dev/null 2>&1
     mv rclone.conf ~/.config/rclone
     if ! command -v rclone &>/dev/null; then
         echo "${aqua}Dependencies not found. Make sure to proceed with the command 'ksau dependencies'"
@@ -106,6 +111,7 @@ setup() {
         fi
     fi
     echo "Setup Completed"
+    exit
 }
 
 # Generates new filename with random strings at last (before extension if present).
@@ -439,7 +445,7 @@ done
 shift $((OPTIND - 1))
 
 if [[ $1 == "setup" ]]; then
-    setup
+    setup "$2"
 fi
 
 # Call this because even if user's not uploading, we want to
