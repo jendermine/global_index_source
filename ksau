@@ -203,19 +203,19 @@ rclone_progress_bar() {
     if [ -z "$new_filename" ]; then new_filename=$(basename "$file"); fi
     case $SELECTED_REMOTE in
         gdrive_jen)
-            rclone -P --checkers=32 --drive-chunk-size 128M copyto "$file" "gdrive_jen:${u_folder}/$new_filename" | tee log >/dev/null || touch "$status_dir/failed" &
+            rclone -P --checkers=32 --drive-chunk-size 128M copyto "$file" "gdrive_jen:jen/${u_folder}/$new_filename" | tee log >/dev/null || touch "$status_dir/failed" &
 	    ;;
 	grdive_non)
-            rclone -P --checkers=32 --drive-chunk-size 128M copyto "$file" "gdrive_non:${u_folder}/$new_filename" | tee log >/dev/null || touch "$status_dir/failed" &
+            rclone -P --checkers=32 --drive-chunk-size 128M copyto "$file" "gdrive_non:non/${u_folder}/$new_filename" | tee log >/dev/null || touch "$status_dir/failed" &
 	    ;;
 	gdrive_roh)
-            rclone -P --checkers=32 --drive-chunk-size 128M copyto "$file" "gdrive_roh:${u_folder}/$new_filename" | tee log >/dev/null || touch "$status_dir/failed" &
+            rclone -P --checkers=32 --drive-chunk-size 128M copyto "$file" "gdrive_roh:roh/${u_folder}/$new_filename" | tee log >/dev/null || touch "$status_dir/failed" &
 	    ;;
 	gdrive_sun)
-            rclone -P --checkers=32 --drive-chunk-size 128M copyto "$file" "gdrive_sun:${u_folder}/$new_filename" | tee log >/dev/null || touch "$status_dir/failed" &
+            rclone -P --checkers=32 --drive-chunk-size 128M copyto "$file" "gdrive_sun:sun/${u_folder}/$new_filename" | tee log >/dev/null || touch "$status_dir/failed" &
 	    ;;
 	gdrive_tech)
-            rclone -P --checkers=32 --drive-chunk-size 128M copyto "$file" "gdrive_tech:${u_folder}/$new_filename" | tee log >/dev/null || touch "$status_dir/failed" &
+            rclone -P --checkers=32 --drive-chunk-size 128M copyto "$file" "gdrive_tech:tech/${u_folder}/$new_filename" | tee log >/dev/null || touch "$status_dir/failed" &
 	    ;;
     esac
     until [ -z "$(jobs -r)" ]; do
