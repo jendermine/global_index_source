@@ -8,18 +8,13 @@ A simple tool written in bash to use my index for uploading files.
 Might be alternative to `bash-upload`, `we-transfer`, `transfer.sh`.
 
 ## How to get started 
-### For Linux/macOS/BSD systems.
+### For Linux/macOS/BSD systems and Termux users.
 ```
 curl -s https://raw.githubusercontent.com/jendermine/global_index_source/master/setup | bash
 ```
 ### For Linux/macOS/BSD systems (ROOT USER).
 ```
 curl -s https://raw.githubusercontent.com/jendermine/global_index_source/master/setup-root | bash
-```
-
-### For Termux user.
-```
-curl -s https://raw.githubusercontent.com/jendermine/global_index_source/master/setup | bash
 ```
 ### Once tool is installed, run setup.
 ```
