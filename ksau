@@ -5,7 +5,7 @@ readonly KSAU_RELEASE_TYPE=stable
 readonly KSAU_VERSION_STRING="Version 3.0.1 (Stable)"
 
 readonly KSAU_CACHE_DIR=$HOME/.ksau
-readonly CACHED_FREESPACE_TIMEOUT=$((60*60)) # 60s * 60m = 1h in seconds unit
+readonly CACHED_FREESPACE_TIMEOUT=$((60 * 60)) # 60s * 60m = 1h in seconds unit
 mkdir -p "$KSAU_CACHE_DIR"
 
 readonly REMOTES=(
@@ -27,7 +27,7 @@ Black='\033[0;30m'  # Black
 Red=$'\033[0;31m'   # Red
 Green='\033[0;32m'  # Green
 Yellow='\033[0;33m' # Yellow
-Blue=$'\033[0;34m'   # Blue
+Blue=$'\033[0;34m'  # Blue
 Purple='\033[0;35m' # Purple
 Cyan='\033[0;36m'   # Cyan
 White='\033[0;37m'  # White
@@ -164,7 +164,7 @@ select_remote_most_free() {
 # Select remote with most free space from cached value
 select_remote_most_free_cached() {
     if [ ! -f "$KSAU_CACHE_DIR/cached_freespace_update_time" ] ||
-    [ "$(( $(date +%s) - $(cat "$KSAU_CACHE_DIR/cached_freespace_update_time") ))" -ge "$CACHED_FREESPACE_TIMEOUT" ]; then
+        [ "$(($(date +%s) - $(cat "$KSAU_CACHE_DIR/cached_freespace_update_time")))" -ge "$CACHED_FREESPACE_TIMEOUT" ]; then
         select_remote_most_free
     else
         SELECTED_REMOTE=$(cat "$KSAU_CACHE_DIR/most_free_remote")
@@ -208,21 +208,21 @@ rclone_progress_bar() {
     touch log
     if [ -z "$new_filename" ]; then new_filename=$(basename "$file"); fi
     case $SELECTED_REMOTE in
-        gdrive_jen)
-            rclone -P --checkers=32 --drive-chunk-size 128M copyto "$file" "gdrive_jen:jen/${u_folder}/$new_filename" | tee log >/dev/null || touch "$status_dir/failed" &
-	    ;;
-	grdive_non)
-            rclone -P --checkers=32 --drive-chunk-size 128M copyto "$file" "gdrive_non:non/${u_folder}/$new_filename" | tee log >/dev/null || touch "$status_dir/failed" &
-	    ;;
-	gdrive_roh)
-            rclone -P --checkers=32 --drive-chunk-size 128M copyto "$file" "gdrive_roh:roh/${u_folder}/$new_filename" | tee log >/dev/null || touch "$status_dir/failed" &
-	    ;;
-	gdrive_sun)
-            rclone -P --checkers=32 --drive-chunk-size 128M copyto "$file" "gdrive_sun:sun/${u_folder}/$new_filename" | tee log >/dev/null || touch "$status_dir/failed" &
-	    ;;
-	gdrive_tech)
-            rclone -P --checkers=32 --drive-chunk-size 128M copyto "$file" "gdrive_tech:tech/${u_folder}/$new_filename" | tee log >/dev/null || touch "$status_dir/failed" &
-	    ;;
+    gdrive_jen)
+        rclone -P --checkers=32 --drive-chunk-size 128M copyto "$file" "gdrive_jen:jen/${u_folder}/$new_filename" | tee log >/dev/null || touch "$status_dir/failed" &
+        ;;
+    grdive_non)
+        rclone -P --checkers=32 --drive-chunk-size 128M copyto "$file" "gdrive_non:non/${u_folder}/$new_filename" | tee log >/dev/null || touch "$status_dir/failed" &
+        ;;
+    gdrive_roh)
+        rclone -P --checkers=32 --drive-chunk-size 128M copyto "$file" "gdrive_roh:roh/${u_folder}/$new_filename" | tee log >/dev/null || touch "$status_dir/failed" &
+        ;;
+    gdrive_sun)
+        rclone -P --checkers=32 --drive-chunk-size 128M copyto "$file" "gdrive_sun:sun/${u_folder}/$new_filename" | tee log >/dev/null || touch "$status_dir/failed" &
+        ;;
+    gdrive_tech)
+        rclone -P --checkers=32 --drive-chunk-size 128M copyto "$file" "gdrive_tech:tech/${u_folder}/$new_filename" | tee log >/dev/null || touch "$status_dir/failed" &
+        ;;
     esac
     until [ -z "$(jobs -r)" ]; do
         if [ -f "$status_dir/failed" ]; then
@@ -298,21 +298,21 @@ upload() {
     echo -e "\n$(clearline)$(upline 1)$(clearline)$(upline 1)"
     echo "$(clearline) Upload Completed "
     case $SELECTED_REMOTE in
-        gdrive_jen)
-            echo "$(clearline) Download link - ${lightgreen}https://index-jen.jendermine.workers.dev/0:/${url_folder}/${url_file}${normal} "
-            ;;
-	gdrive_non)
-            echo "$(clearline) Download link - ${lightgreen}https://index-non.jendermine.workers.dev/0:/${url_folder}/${url_file}${normal} "
-            ;;
-	gdrive_roh)
-            echo "$(clearline) Download link - ${lightgreen}https://index-roh.jendermine.workers.dev/0:/${url_folder}/${url_file}${normal} "
-            ;;
-	gdrive_sun)
-            echo "$(clearline) Download link - ${lightgreen}https://index-sun.jendermine.workers.dev/0:/${url_folder}/${url_file}${normal} "
-            ;;
-	gdrive_tech)
-            echo "$(clearline) Download link - ${lightgreen}https://index-tech.jendermine.workers.dev/0:/${url_folder}/${url_file}${normal} "
-            ;;
+    gdrive_jen)
+        echo "$(clearline) Download link - ${lightgreen}https://index-jen.jendermine.workers.dev/0:/${url_folder}/${url_file}${normal} "
+        ;;
+    gdrive_non)
+        echo "$(clearline) Download link - ${lightgreen}https://index-non.jendermine.workers.dev/0:/${url_folder}/${url_file}${normal} "
+        ;;
+    gdrive_roh)
+        echo "$(clearline) Download link - ${lightgreen}https://index-roh.jendermine.workers.dev/0:/${url_folder}/${url_file}${normal} "
+        ;;
+    gdrive_sun)
+        echo "$(clearline) Download link - ${lightgreen}https://index-sun.jendermine.workers.dev/0:/${url_folder}/${url_file}${normal} "
+        ;;
+    gdrive_tech)
+        echo "$(clearline) Download link - ${lightgreen}https://index-tech.jendermine.workers.dev/0:/${url_folder}/${url_file}${normal} "
+        ;;
     esac
     echo "$(clearline)"
 
@@ -465,10 +465,12 @@ if [[ $1 == "upload" ]]; then
     fi
     if [ -n "$KSAUOPT_SPECIFIC_REMOTE" ]; then
         SELECTED_REMOTE=$KSAUOPT_SPECIFIC_REMOTE
-        upline 1; clearline
+        upline 1
+        clearline
         echo "Using requested remote: $SELECTED_REMOTE"
     elif [ "$(stat -c '%s' "$file")" -lt 104857600 ]; then # -lt 100MiB
-        upline 1; clearline
+        upline 1
+        clearline
         echo "File size is <100MiB, selecting random remote"
         select_remote_random # override most free cached
     fi
