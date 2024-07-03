@@ -79,38 +79,20 @@ dependencies() {
 
 setup() {
     mkdir -p ~/.config/rclone
-    rm ~/.config/rclone/rclone.conf >/dev/null 2>&1
-    if ! command -v wget &>/dev/null; then
-        echo "${aqua}Does this machine even have simple pkgs installed?"
-        echo "Please install ${orange}wget ${aqua}manually and continue...${normal}"
-        exit
+    if ! command -v wget &>/dev/null || ! command -v jq &>/dev/null || ! command -v rclone &>/dev/null; then
+        echo "${Red}Dependencies are not installed!${normal}"
+        echo "${aqua}Please install jq, wget and rclone.${normal}"
+        exit 1
     fi
+
     url=$1
     if [ -z "$url" ]; then
-    echo "Usage: ksau setup <URL>"
+    echo "Usage: ksau setup <URL>, message t.me/jendermine to get <URL>"
     exit 1
     fi
     wget $url -O rclone.conf >/dev/null 2>&1
     mv rclone.conf ~/.config/rclone
-    if ! command -v rclone &>/dev/null; then
-        echo "${aqua}Dependencies not found. Make sure to proceed with the command 'ksau dependencies'"
-        echo "${aqua}OR manually install ${orange}rclone ${aqua}and ${orange}jq${normal}"
-        exit
-    else
-        if ! command -v jq &>/dev/null; then
-            echo "${aqua}Dependencies not found. Make sure to proceed with the command 'ksau dependencies'"
-            echo "${aqua}Please install jq manually, No script found"
-            echo "Possibly with
-					${aqua}sudo apt-get install jq ${normal}OR
-					${aqua}sudo pacman -S jq ${normal}OR
-					${aqua}sudo dnf install jq ${normal}OR
-					${aqua}sudo zypper install jq ${normal}OR
-					${aqua}apk add jq ${normal}OR
-					${aqua}pkg install jq${normal}"
-            exit
-        fi
-    fi
-    echo "Setup Completed"
+    echo "${lightgreen}Setup Completed${normal}"
     exit
 }
 
@@ -464,7 +446,7 @@ if [[ $1 == "upload" ]]; then
         exit 1
     fi
     if [ -z "$u_folder" ]; then
-        echo -e "Error: 'upload directory' is not specified. Upload aborted.\nSpecify a folder name (can be anything) in which files will be uploaded to help organize files better"
+        echo -e "Error: 'upload directory' is not specified. Upload aborted.\nSpecify a folder name (it can be anything) in which files will be uploaded to help organize them better."
         exit 1
     fi
     if [ -n "$KSAUOPT_SPECIFIC_REMOTE" ]; then

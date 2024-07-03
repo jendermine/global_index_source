@@ -26,5 +26,5 @@ if ! command -v ksau &>/dev/null; then
     echo "Posssible Solution : Don't run as root or check Root version.${normal}"
     exit
 else
-    ksau
+    ksau setup
 fi
